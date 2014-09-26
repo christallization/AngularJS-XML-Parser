@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" ng-app="screening">
+  <head>
+    <title>VA - DataSet</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  </head>
+  <body ng-controller="screeningCtrl">    
+    <div class="container">
+      <h2>Veterans</h2>
+      <p>List of Veterans and their scores</p>      
+      <div class="table-responsive">          
+       <table class="table table-striped table-bordered">
+         <thead>
+           <tr>
+             <th>#</th>
+             <th>Name</th>
+             <th>Score 1</th>
+             <th>Score 2</th>
+           </tr>
+         </thead>
+         <tbody>
+         	<tr ng-repeat="veteran in screening">
+                <td>{{veteran.id}}</td>
+                <td>{{veteran.name}}</td>
+                <td>{{veteran.score_1}}% <a href="#"><span class="glyphicon glyphicon-download"></span></a></td>
+                <td>{{veteran.score_2}}% <a href="#"><span class="glyphicon glyphicon-download"></span></a></td>
+            </tr>
+         </tbody>
+       </table>
+      </div>     
+    </div>
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+    <script src="angular-xml.js"></script>
+    <script>
+      angular
+        .module('screening', ['xml'])
+        .config(function ($httpProvider) {
+          $httpProvider.interceptors.push('xmlHttpInterceptor');
+        })
+        .controller('screeningCtrl', function ($scope, $http) {
+          $http.get('proper_xml.xml').then(function (response) {
+            var screening = [],
+                els   = response.xml.find('veteran'),
+                veteran, i;
+
+            for (i = 0; i < els.length; i += 1) {
+              veteran = angular.element(els[i]);
+              screening.push({
+                id: veteran.attr('id'),
+				name: veteran.attr('name'),
+				score_1: veteran.attr('score_1'),
+				score_2: veteran.attr('score_2')
+              });
+            }
+
+            $scope.screening = screening;
+          });
+        });
+      </script>
+      <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  </body>
+</html>

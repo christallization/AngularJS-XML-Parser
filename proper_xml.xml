@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<screening>
+  <veteran id="1" name="Chris Obigho" score_1="85" score_2="99" />
+  <veteran id="2" name="Leo Obigho" score_1="45" score_2="24" />
+  <veteran id="3" name="Kristi Obigho" score_1="71" score_2="31" />
+</screening>
